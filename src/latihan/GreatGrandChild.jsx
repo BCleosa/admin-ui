@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { CounterContext } from "../context/counterContext";
 
 // Component GreatGrandChild
-function GreatGrandChild(props) {
+function GreatGrandChild() {
+  const { count } = useContext(CounterContext);
+
   return (
     <div className="ps-10">
-      <p>Nilai count di GreatGrandChild dari GrandChild: {props.count}</p>
+      <p>Nilai count di GreatGrandChild dari GrandChild: {count}</p>
     </div>
   );
 }
