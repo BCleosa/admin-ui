@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useState, useContext } from "react";
 import MainLayout from "../components/Layouts/MainLayout";
 import CardBalance from "../components/Fragments/CardBalance";
 import CardGoal from "../components/Fragments/CardGoal";
@@ -6,19 +6,44 @@ import CardUpcomingBill from "../components/Fragments/CardUpcomingBill";
 import CardRecentTransaction from "../components/Fragments/CardRecentTransaction";
 import CardStatistic from "../components/Fragments/CardStatistic";
 import CardExpenseBreakdown from "../components/Fragments/CardExpenseBreakdown";
-import { 
-  transactions, 
-  bills, 
+
+import {
+  transactions,
+  bills,
   expensesBreakdowns,
   balances,
-  goals,
   expensesStatistics,
- } from "../data";
+} from "../data";
 
-function dashboard() {
+import { goalService } from "../services/dataService";
+import { AuthContext } from "../context/authContext";
+
+function Dashboard() {
+  const [goals, setGoals] = useState({});
+  const { logout } = useContext(AuthContext);
+
+  const fetchGoals = async () => {
+    try {
+      const data = await goalService();
+      setGoals(data);
+    } catch (err) {
+      console.error("Gagal mengambil data goals:", err);
+
+      if (err.status === 401) {
+        logout();
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchGoals();
+  }, []);
+
+  console.log(goals);
+
   return (
     <MainLayout>
-      <div className="grid sm:grid-cols-12 gap-6">
+      <div className="grid gap-6 sm:grid-cols-12">
         <div className="sm:col-span-4">
           <CardBalance data={balances} />
         </div>
@@ -47,4 +72,4 @@ function dashboard() {
   );
 }
 
-export default dashboard;
+export default Dashboard;
