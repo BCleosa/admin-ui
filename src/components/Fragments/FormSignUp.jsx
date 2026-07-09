@@ -44,7 +44,7 @@ function FormSignUp({ onSubmit }) {
                       id="name"
                       type="text"
                       label="Name"
-                      placeholder="Kholifah Rana Almadina"
+                      placeholder="Birgita Cleosa Chatriona Agriani"
                     />
                   )}
                 </Field>
